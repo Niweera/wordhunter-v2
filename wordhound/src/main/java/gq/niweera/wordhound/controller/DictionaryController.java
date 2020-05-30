@@ -1,0 +1,26 @@
+package gq.niweera.wordhound.controller;
+
+import gq.niweera.wordhound.model.Dictionary;
+import gq.niweera.wordhound.service.DictionaryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class DictionaryController {
+
+    private final DictionaryService dictionaryService;
+
+    @Autowired
+    public DictionaryController(DictionaryService dictionaryService) {
+        this.dictionaryService = dictionaryService;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{word}")
+    public Dictionary getDefinition(@PathVariable("word") String word) {
+        return dictionaryService.getDefinition(word);
+    }
+
+}
