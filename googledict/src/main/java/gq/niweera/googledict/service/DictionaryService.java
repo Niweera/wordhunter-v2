@@ -4,6 +4,7 @@ package gq.niweera.googledict.service;
 import gq.niweera.googledict.model.Dictionary;
 import gq.niweera.googledict.scraper.Scraper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,7 @@ public class DictionaryService {
         this.scraper = scraper;
     }
 
+    @Cacheable("googledict")
     public Dictionary getDictionaryEntry(String word) {
         return scraper.scrapeSite(word);
     }

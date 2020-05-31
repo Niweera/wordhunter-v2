@@ -4,6 +4,7 @@ import gq.niweera.wordhound.model.DefaultResponse;
 import gq.niweera.wordhound.model.Dictionary;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,6 +20,7 @@ public class WordHoundService {
         this.restTemplate = restTemplate;
     }
 
+    @Cacheable("wordhound")
     public Dictionary getDefinition(String word) {
         Dictionary definitionFromDB = dictionaryRepository.findOneByWord(word);
         if (definitionFromDB != null) {

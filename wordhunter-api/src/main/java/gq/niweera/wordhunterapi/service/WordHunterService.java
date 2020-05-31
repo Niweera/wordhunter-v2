@@ -3,6 +3,7 @@ package gq.niweera.wordhunterapi.service;
 import gq.niweera.wordhunterapi.model.DefaultResponse;
 import gq.niweera.wordhunterapi.model.DictionaryList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -19,6 +20,7 @@ public class WordHunterService {
         this.enygmaService = enygmaService;
     }
 
+    @Cacheable("wordhunterapi")
     public DictionaryList getWordsWithDefinitions(String letters) {
         List<String> anagramsList = enygmaService.getAnagramsList(letters);
 
