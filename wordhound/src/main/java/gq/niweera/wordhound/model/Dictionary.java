@@ -1,10 +1,12 @@
 package gq.niweera.wordhound.model;
 
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "dictionary")
 public class Dictionary {
+    @Indexed(unique = true)
     private String word;
     private String definition;
 

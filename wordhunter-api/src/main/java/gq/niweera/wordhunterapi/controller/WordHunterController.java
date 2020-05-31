@@ -1,11 +1,11 @@
 package gq.niweera.wordhunterapi.controller;
 
+import gq.niweera.wordhunterapi.model.DefaultResponse;
 import gq.niweera.wordhunterapi.model.DictionaryList;
 import gq.niweera.wordhunterapi.service.WordHunterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,9 +17,13 @@ public class WordHunterController {
         this.wordHunterService = wordHunterService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{letters}")
+    @GetMapping("/")
+    public DefaultResponse getRootEndpoint() {
+        return wordHunterService.getRootEndpoint();
+    }
+
+    @GetMapping("/{letters}")
     public DictionaryList getWordsWithDefinitions(@PathVariable String letters) {
         return wordHunterService.getWordsWithDefinitions(letters);
     }
-
 }
