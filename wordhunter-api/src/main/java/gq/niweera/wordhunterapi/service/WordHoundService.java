@@ -4,9 +4,10 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import gq.niweera.wordhunterapi.model.Dictionary;
 import gq.niweera.wordhunterapi.model.DictionaryList;
+import gq.niweera.wordhunterapi.proxy.WordHoundProxy;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,16 +15,18 @@ import java.util.stream.Collectors;
 
 @Service
 public class WordHoundService {
-    private final RestTemplate restTemplate;
 
-    public WordHoundService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    private final WordHoundProxy wordHoundProxy;
+
+    @Autowired
+    public WordHoundService(WordHoundProxy wordHoundProxy) {
+        this.wordHoundProxy = wordHoundProxy;
     }
 
     @HystrixCommand(fallbackMethod = "getFallbackDefinitions",
             commandKey = "wordHoundServiceCommand",
             commandProperties = {
-                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1200000"),
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "300000"),
                     @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "100"),
                     @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
                     @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000")
@@ -33,7 +36,7 @@ public class WordHoundService {
                     @HystrixProperty(name = "maxQueueSize", value = "10")
             })
     public List<Dictionary> getDefinitions(@NotNull List<String> anagramsList) {
-        List<Dictionary> dictionaryList = anagramsList.stream().map(word -> restTemplate.getForObject("http://wordhound/" + word, Dictionary.class)).collect(Collectors.toList());
+        List<Dictionary> dictionaryList = anagramsList.stream().map(wordHoundProxy::getDefinitionFromWordHound).collect(Collectors.toList());
         DictionaryList rawDefinitions = new DictionaryList(dictionaryList);
         return rawDefinitions.getDefinitions().stream().filter(item -> !item.getWord().equals("not-found-error")).collect(Collectors.toList());
     }

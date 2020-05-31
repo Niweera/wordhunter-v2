@@ -3,22 +3,24 @@ package gq.niweera.wordhunterapi.service;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import gq.niweera.wordhunterapi.model.Anagram;
+import gq.niweera.wordhunterapi.proxy.EnygmaProxy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
 
 @Service
 public class EnygmaService {
-    private final RestTemplate restTemplate;
+    private final EnygmaProxy enygmaProxy;
 
-    public EnygmaService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    @Autowired
+    public EnygmaService(EnygmaProxy enygmaProxy) {
+        this.enygmaProxy = enygmaProxy;
     }
 
     @HystrixCommand(fallbackMethod = "getFallbackAnagramsList", commandKey = "enygmaServiceCommand", commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000"),
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "30000"),
             @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "100"),
             @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
             @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000")
@@ -27,7 +29,7 @@ public class EnygmaService {
             @HystrixProperty(name = "maxQueueSize", value = "10")
     })
     public List<String> getAnagramsList(String letters) {
-        Anagram anagrams = restTemplate.getForObject("http://enygma/" + letters, Anagram.class);
+        Anagram anagrams = enygmaProxy.getAnagramsFromEnygma(letters);
         return anagrams != null ? anagrams.getAnagrams() : Collections.emptyList();
     }
 
