@@ -17,7 +17,7 @@ public class DictionaryService {
         this.scraper = scraper;
     }
 
-    @Cacheable("googledict")
+    @Cacheable(value = "googledict", key = "#word")
     public Dictionary getDictionaryEntry(String word) {
         return scraper.scrapeSite(word);
     }

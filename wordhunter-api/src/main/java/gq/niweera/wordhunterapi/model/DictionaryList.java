@@ -1,8 +1,11 @@
 package gq.niweera.wordhunterapi.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class DictionaryList {
+public class DictionaryList implements Serializable {
+    private static final long serialVersionUID = 7256526077883281623L;
+
     private List<Dictionary> definitions;
 
     public DictionaryList() {

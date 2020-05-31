@@ -1,8 +1,10 @@
 package gq.niweera.enygma.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Anagram {
+public class Anagram implements Serializable {
+    private static final long serialVersionUID = 7156526077883281623L;
     private List<String> anagrams;
 
     public Anagram() {

@@ -1,6 +1,9 @@
 package gq.niweera.wordhunterapi.model;
 
-public class Dictionary {
+import java.io.Serializable;
+
+public class Dictionary implements Serializable {
+    private static final long serialVersionUID = 7256526436883281623L;
     private String word;
     private String definition;
 

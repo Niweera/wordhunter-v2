@@ -1,6 +1,10 @@
 package gq.niweera.googledict.model;
 
-public class Dictionary {
+import java.io.Serializable;
+
+public class Dictionary implements Serializable {
+    private static final long serialVersionUID = 8156526077883281623L;
+
     private String word;
     private String definition;
 

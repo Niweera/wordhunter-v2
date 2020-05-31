@@ -20,7 +20,7 @@ public class WordHunterService {
         this.enygmaService = enygmaService;
     }
 
-    @Cacheable("wordhunterapi")
+    @Cacheable(value = "wordhunterapi", key = "#letters")
     public DictionaryList getWordsWithDefinitions(String letters) {
         List<String> anagramsList = enygmaService.getAnagramsList(letters);
 

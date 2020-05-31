@@ -20,7 +20,7 @@ public class WordHoundService {
         this.restTemplate = restTemplate;
     }
 
-    @Cacheable("wordhound")
+    @Cacheable(value = "wordhound", key = "#word")
     public Dictionary getDefinition(String word) {
         Dictionary definitionFromDB = dictionaryRepository.findOneByWord(word);
         if (definitionFromDB != null) {

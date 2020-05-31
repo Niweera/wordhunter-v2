@@ -15,7 +15,7 @@ public class AnagramService {
         this.scraper = scraper;
     }
 
-    @Cacheable("anagrams")
+    @Cacheable(value = "anagrams", key = "#letters")
     public Anagram getAnagrams(String letters) {
         return scraper.scrapeSite(letters);
     }

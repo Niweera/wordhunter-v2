@@ -4,8 +4,11 @@ package gq.niweera.wordhound.model;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+
 @Document(collection = "dictionary")
-public class Dictionary {
+public class Dictionary implements Serializable {
+    private static final long serialVersionUID = 9156526077883281623L;
     @Indexed(unique = true)
     private String word;
     private String definition;
