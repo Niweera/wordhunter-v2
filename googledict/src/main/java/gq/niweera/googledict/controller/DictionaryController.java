@@ -1,12 +1,12 @@
 package gq.niweera.googledict.controller;
 
+import gq.niweera.googledict.model.DefaultResponse;
 import gq.niweera.googledict.model.Dictionary;
 import gq.niweera.googledict.service.DictionaryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class DictionaryController {
@@ -17,9 +17,22 @@ public class DictionaryController {
         this.dictionaryService = dictionaryService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{word}")
+    @GetMapping("/")
+    public DefaultResponse getRootEndpoint() {
+        try {
+            return dictionaryService.getRootEndpoint();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/definition/{word}")
     public Dictionary getDictionaryEntry(@PathVariable("word") String word) {
-        return dictionaryService.getDictionaryEntry(word);
+        try {
+            return dictionaryService.getDictionaryEntry(word);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+        }
     }
 
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RibbonClient(name = "googledict")
 public interface GoogleDictProxy {
 
-    @GetMapping("/{word}")
-    Dictionary getFGoogleDictDefinition(@PathVariable("word") String word);
+    @GetMapping("/definition/{word}")
+    Dictionary getGoogleDictDefinition(@PathVariable("word") String word);
 
 }

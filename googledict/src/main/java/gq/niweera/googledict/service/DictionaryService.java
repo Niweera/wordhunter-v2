@@ -1,6 +1,7 @@
 package gq.niweera.googledict.service;
 
 
+import gq.niweera.googledict.model.DefaultResponse;
 import gq.niweera.googledict.model.Dictionary;
 import gq.niweera.googledict.scraper.Scraper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,4 +23,7 @@ public class DictionaryService {
         return scraper.scrapeSite(word);
     }
 
+    public DefaultResponse getRootEndpoint() {
+        return new DefaultResponse("No words given", "http://googledict/definition/{word}", "Provide the word to get the definition");
+    }
 }

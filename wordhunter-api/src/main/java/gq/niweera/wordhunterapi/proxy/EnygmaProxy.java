@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "enygma")
 @RibbonClient(name = "enygma")
 public interface EnygmaProxy {
-    @GetMapping("/{letters}")
+    @GetMapping("/anagrams/{letters}")
     Anagram getAnagramsFromEnygma(@PathVariable("letters") String letters);
 }

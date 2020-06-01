@@ -20,7 +20,7 @@ public class GoogleDictService {
     @HystrixCommand(fallbackMethod = "getFallbackFromGoogleDict",
             commandKey = "googleDictServiceCommand",
             commandProperties = {
-                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "30000"),
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "40000"),
                     @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "100"),
                     @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
                     @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000")
@@ -30,7 +30,7 @@ public class GoogleDictService {
                     @HystrixProperty(name = "maxQueueSize", value = "10")
             })
     public @Nullable Dictionary getFromGoogleDict(String word) {
-        Dictionary definition = googleDictProxy.getFGoogleDictDefinition(word);
+        Dictionary definition = googleDictProxy.getGoogleDictDefinition(word);
         if (definition != null && !definition.getWord().equals("not-found-error")) {
             return definition;
         } else {

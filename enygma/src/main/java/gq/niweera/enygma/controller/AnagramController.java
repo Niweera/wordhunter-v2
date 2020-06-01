@@ -1,12 +1,12 @@
 package gq.niweera.enygma.controller;
 
 import gq.niweera.enygma.model.Anagram;
+import gq.niweera.enygma.model.DefaultResponse;
 import gq.niweera.enygma.service.AnagramService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class AnagramController {
@@ -17,8 +17,21 @@ public class AnagramController {
         this.anagramService = anagramService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{letters}")
+    @GetMapping("/")
+    public DefaultResponse getRootEndpoint() {
+        try {
+            return anagramService.getRootEndpoint();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/anagrams/{letters}")
     public Anagram getAnagrams(@PathVariable("letters") String letters) {
-        return anagramService.getAnagrams(letters);
+        try {
+            return anagramService.getAnagrams(letters);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+        }
     }
 }

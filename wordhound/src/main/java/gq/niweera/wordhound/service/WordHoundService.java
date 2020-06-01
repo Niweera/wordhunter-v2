@@ -9,26 +9,34 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class WordHoundService {
-    private final DictionaryRepository dictionaryRepository;
     private final GoogleDictService googleDictService;
-
+    private final WordCacheService wordCacheService;
 
     @Autowired
-    public WordHoundService(DictionaryRepository dictionaryRepository, GoogleDictService googleDictService) {
-        this.dictionaryRepository = dictionaryRepository;
+    public WordHoundService(GoogleDictService googleDictService, WordCacheService wordCacheService) {
         this.googleDictService = googleDictService;
+        this.wordCacheService = wordCacheService;
     }
 
     @Cacheable(value = "wordhound", key = "#word")
     public Dictionary getDefinition(String word) {
-        Dictionary definitionFromDB = dictionaryRepository.findOneByWord(word);
+        Dictionary definitionFromDB;
+        try {
+            definitionFromDB = wordCacheService.getDefinitionFormWordCache(word);
+        } catch (Exception ignored) {
+            definitionFromDB = null;
+        }
         if (definitionFromDB != null) {
             return definitionFromDB;
         } else {
             Dictionary definitionFromGoogleDict = googleDictService.getFromGoogleDict(word);
             if (definitionFromGoogleDict != null) {
-                saveNewDefinition(definitionFromGoogleDict);
-                return definitionFromGoogleDict;
+                try {
+                    saveNewDefinition(definitionFromGoogleDict);
+                    return definitionFromGoogleDict;
+                } catch (Exception ignored) {
+                    return definitionFromGoogleDict;
+                }
             } else {
                 return new Dictionary("not-found-error", "Definition not found");
             }
@@ -36,10 +44,10 @@ public class WordHoundService {
     }
 
     private void saveNewDefinition(Dictionary newDefinition) {
-        dictionaryRepository.save(newDefinition);
+        wordCacheService.saveDefinitionInWordCache(newDefinition);
     }
 
     public DefaultResponse getRootEndpoint() {
-        return new DefaultResponse("No words given", "http://wordhound/{word}", "Provide the word to get the definition");
+        return new DefaultResponse("No words given", "http://wordhound/definition/{word}", "Provide the word to get the definition");
     }
 }

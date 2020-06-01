@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "wordhound")
 @RibbonClient(name = "wordhound")
 public interface WordHoundProxy {
-    @GetMapping("/{word}")
+    @GetMapping("/definition/{word}")
     Dictionary getDefinitionFromWordHound(@PathVariable("word") String word);
 }
