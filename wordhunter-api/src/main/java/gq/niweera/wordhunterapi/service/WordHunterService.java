@@ -32,6 +32,6 @@ public class WordHunterService {
     }
 
     public DefaultResponse getRootEndpoint() {
-        return new DefaultResponse("No characters are given!", "http://wordhunter-api/anagrams/{letters}", "Just enter the letters. No need for spaces, commas etc.");
+        return new DefaultResponse("No characters are given!");
     }
 }

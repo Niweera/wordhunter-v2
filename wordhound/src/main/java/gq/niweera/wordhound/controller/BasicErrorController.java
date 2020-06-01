@@ -1,6 +1,6 @@
-package gq.niweera.enygma.controller;
+package gq.niweera.wordhound.controller;
 
-import gq.niweera.enygma.model.DefaultResponse;
+import gq.niweera.wordhound.model.DefaultResponse;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -38,5 +38,4 @@ public class BasicErrorController implements ErrorController {
         }
         return new DefaultResponse("error-500");
     }
-
 }

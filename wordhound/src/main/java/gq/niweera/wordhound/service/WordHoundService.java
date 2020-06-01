@@ -48,6 +48,6 @@ public class WordHoundService {
     }
 
     public DefaultResponse getRootEndpoint() {
-        return new DefaultResponse("No words given", "http://wordhound/definition/{word}", "Provide the word to get the definition");
+        return new DefaultResponse("No words given");
     }
 }

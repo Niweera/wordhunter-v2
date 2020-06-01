@@ -24,6 +24,6 @@ public class DictionaryService {
     }
 
     public DefaultResponse getRootEndpoint() {
-        return new DefaultResponse("No words given", "http://googledict/definition/{word}", "Provide the word to get the definition");
+        return new DefaultResponse("No words given");
     }
 }

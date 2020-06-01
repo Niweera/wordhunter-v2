@@ -11,6 +11,12 @@ public class DefaultResponse {
         this.note = note;
     }
 
+    public DefaultResponse(String error) {
+        this.error = error;
+        this.endpoint = "http://wordhunter-api/anagrams/{letters}";
+        this.note = "Just enter the letters. No need for spaces, commas etc.";
+    }
+
     public DefaultResponse() {
     }
 

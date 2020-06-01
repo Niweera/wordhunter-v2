@@ -34,4 +34,10 @@ public class DefaultResponse {
         this.endpoint = endpoint;
         this.note = note;
     }
+
+    public DefaultResponse(String error) {
+        this.error = error;
+        this.endpoint = "http://enygma/anagrams/{letters}";
+        this.note = "Provide letters to find anagrams.";
+    }
 }

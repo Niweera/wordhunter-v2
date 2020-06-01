@@ -12,6 +12,12 @@ public class DefaultResponse {
         this.note = note;
     }
 
+    public DefaultResponse(String error) {
+        this.error = error;
+        this.endpoint = "http://wordhound/definition/{word}";
+        this.note = "Provide the word to get the definition";
+    }
+
     public DefaultResponse() {
     }
 

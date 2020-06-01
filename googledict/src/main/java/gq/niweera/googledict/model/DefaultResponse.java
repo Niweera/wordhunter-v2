@@ -11,6 +11,12 @@ public class DefaultResponse {
         this.note = note;
     }
 
+    public DefaultResponse(String error) {
+        this.error = error;
+        this.endpoint = "http://googledict/definition/{word}";
+        this.note = "Provide the word to get the definition";
+    }
+
     public String getError() {
         return error;
     }

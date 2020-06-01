@@ -22,6 +22,6 @@ public class AnagramService {
     }
 
     public DefaultResponse getRootEndpoint() {
-        return new DefaultResponse("No letters given", "http://enygma/anagrams/{letters}", "Provide the letters to get the anagrams");
+        return new DefaultResponse("No letters given");
     }
 }
