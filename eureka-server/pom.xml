@@ -17,6 +17,8 @@
     <properties>
         <java.version>14</java.version>
         <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
+        <maven.compiler.target>14</maven.compiler.target>
+        <maven.compiler.source>14</maven.compiler.source>
     </properties>
 
     <dependencies>
@@ -84,10 +86,19 @@
                 </configuration>
             </plugin>
             <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>14</source>
+                    <target>14</target>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>com.heroku.sdk</groupId>
                 <artifactId>heroku-maven-plugin</artifactId>
                 <version>3.0.2</version>
                 <configuration>
+                    <jdkVersion>14</jdkVersion>
                     <appName>eureka-server</appName>
                     <includeTarget>false</includeTarget>
                     <includes>
