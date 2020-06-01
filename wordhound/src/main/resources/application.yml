@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: wordhound
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379
+    url: ${REDIS_URL:redis://localhost:6379}
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/wordcache}
+
+server:
+  port: ${PORT:8002}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL:http://localhost:8761}/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - hystrix.stream
+          - httptrace
+
+feign:
+  client:
+    config:
+      defualt:
+        connectTimeout: 300000
+        readTimeout: 300000
