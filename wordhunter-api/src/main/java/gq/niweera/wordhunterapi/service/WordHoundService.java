@@ -39,9 +39,12 @@ public class WordHoundService {
                     @HystrixProperty(name = "maxQueueSize", value = "10")
             })
     public Flux<Dictionary> getDefinitions(@NotNull List<String> anagramsList) {
-        List<Mono<Dictionary>> dictionaryList = anagramsList.stream().map(this::getDefinitionFromWordHound).collect(Collectors.toList());
-        Flux.mergeSequential(dictionaryList).subscribe(i-> System.out.println(i.getDefinition()));
-        return Flux.mergeSequential(dictionaryList);
+        try {
+            List<Mono<Dictionary>> dictionaryList = anagramsList.stream().map(this::getDefinitionFromWordHound).collect(Collectors.toList());
+            return Flux.mergeSequential(dictionaryList);
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 
     private Mono<Dictionary> getDefinitionFromWordHound(String word) {
