@@ -5,7 +5,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import gq.niweera.enygma.model.Anagram;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ public class Scraper {
 
     }
 
-//    @Cacheable(value = "anagrams", key = "#letters")
     public Anagram scrapeSite(String letters) {
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);
@@ -34,12 +32,12 @@ public class Scraper {
         try {
             HtmlPage page = client.getPage(url);
             List<HtmlElement> results = page.getByXPath("//*[(@id = \"wordwrap\")]//a");
-            log.info(results.toString());
             List<String> anagrams = new ArrayList<>();
             if (!results.isEmpty()) {
                 results.forEach(item -> anagrams.add(item.asText()));
+            } else {
+                log.warn("No anagrams to display");
             }
-            log.info(anagrams.toString());
             return new Anagram(anagrams);
         } catch (Exception ignored) {
             return new Anagram(new ArrayList<>());
