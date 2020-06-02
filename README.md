@@ -3,9 +3,9 @@
 
 # WordHunter-V2
 
-## WordHunter-V2 is an ongoing project
+## WordHunter-V2 is now live on https://wordhunter.niweera.gq
 
-## ([WordHunter-V1](https://github.com/Niweera/wordhunter) is live on https://wordhunter.niweera.gq)
+## ([WordHunter-V1](https://github.com/Niweera/wordhunter) is live on [here](https://20200409t141418-dot-whunter.uc.r.appspot.com/))
 
 > WordHunter lets you to find the words for the letters you have when you are playing Scrabble.
 
