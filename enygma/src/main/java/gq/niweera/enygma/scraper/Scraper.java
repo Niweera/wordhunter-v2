@@ -5,6 +5,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import gq.niweera.enygma.model.Anagram;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class Scraper {
 
     }
 
+    @Cacheable(value = "anagrams", key = "#letters")
     public Anagram scrapeSite(String letters) {
         WebClient client = new WebClient();
         client.getOptions().setJavaScriptEnabled(false);
