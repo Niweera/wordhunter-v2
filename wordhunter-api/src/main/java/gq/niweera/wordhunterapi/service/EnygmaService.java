@@ -20,7 +20,7 @@ public class EnygmaService {
     }
 
     @HystrixCommand(fallbackMethod = "getFallbackAnagramsList", commandKey = "enygmaServiceCommand", commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "30000"),
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "20000"),
             @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "100"),
             @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
             @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000")
