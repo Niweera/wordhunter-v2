@@ -4,6 +4,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import gq.niweera.wordhunterapi.model.DefaultResponse;
 import gq.niweera.wordhunterapi.model.Dictionary;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -11,6 +12,7 @@ import reactor.core.publisher.Flux;
 import java.util.List;
 
 @Service
+@Slf4j
 public class WordHunterService {
     private final WordHoundService wordHoundService;
     private final EnygmaService enygmaService;
@@ -36,8 +38,10 @@ public class WordHunterService {
     public Flux<Dictionary> getWordsWithDefinitions(String letters) {
         List<String> anagramsList = enygmaService.getAnagramsList(letters);
         if (!anagramsList.isEmpty()) {
+            log.info(anagramsList.toString());
             return wordHoundService.getDefinitions(anagramsList);
         } else {
+            log.warn("AnagramsList is empty");
             return Flux.empty();
         }
     }
