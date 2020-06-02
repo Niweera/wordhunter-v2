@@ -40,6 +40,7 @@ public class WordHoundService {
             })
     public Flux<Dictionary> getDefinitions(@NotNull List<String> anagramsList) {
         List<Mono<Dictionary>> dictionaryList = anagramsList.stream().map(this::getDefinitionFromWordHound).collect(Collectors.toList());
+        Flux.mergeSequential(dictionaryList).subscribe(i-> System.out.println(i.getDefinition()));
         return Flux.mergeSequential(dictionaryList);
     }
 
