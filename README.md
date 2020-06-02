@@ -3,8 +3,9 @@
 
 # WordHunter-V2
 
-## WordHunter-V2 is an ongoing project 
-##  ([WordHunter-V1](https://github.com/Niweera/wordhunter) is live on https://wordhunter.niweera.gq)
+## WordHunter-V2 is an ongoing project
+
+## ([WordHunter-V1](https://github.com/Niweera/wordhunter) is live on https://wordhunter.niweera.gq)
 
 > WordHunter lets you to find the words for the letters you have when you are playing Scrabble.
 
@@ -31,13 +32,13 @@ Distributed under the MIT license. See `LICENSE` for more information.
 
 [https://github.com/Niweera/wordhunter-v2](https://github.com/Niweera/wordhunter-v2)
 
-WordHunter-V2 is a combination of several microservices written in Java Spring Boot. 
+WordHunter-V2 is a combination of several microservices written in Java Spring Boot.
 All services are cached with Redis server, load balanced with Ribbon Client and short-circuited with Netflix Hystrix. Inter-service communication is done via FeignClient.
 
-1. GoogleDict - (Dictionary API Service)
-2. Enygma - (Enygma Service for getting anagrams for a given letter combinations)
-3. WordHound - (WordHound Service uses WordCache DB for providing definitions to a given word. It uses GoogleDict Service to populate the WordCache DB [A MongoDB instance])
-4. WordHunter-API - (The main entry-point to the WordHunter application, basically provides the words, and their definitions for a given letter combination)
+1. [GoogleDict](https://googledict.herokuapp.com/) - (Dictionary API Service)
+2. [Enygma](https://enygma.herokuapp.com/) - (Enygma Service for getting anagrams for a given letter combinations)
+3. [WordHound](https://wordhound.herokuapp.com/) - (WordHound Service uses WordCache DB for providing definitions to a given word. It uses GoogleDict Service to populate the WordCache DB [A MongoDB instance])
+4. [WordHunter-API](https://wordhunter-api.herokuapp.com/) - (The main entry-point to the WordHunter application, basically provides the words, and their definitions for a given letter combination)
 5. Eureka-Server - (Eureka Discovery Server for service discovery)
 6. WordHunter-UI - (UI for the WordHunter application)
 
