@@ -40,7 +40,7 @@ All services are cached with Redis server, load balanced with Ribbon Client and 
 3. [WordHound](https://wordhound.herokuapp.com/) - (WordHound Service uses WordCache DB for providing definitions to a given word. It uses GoogleDict Service to populate the WordCache DB [A MongoDB instance])
 4. [WordHunter-API](https://wordhunter-api.herokuapp.com/) - (The main entry-point to the WordHunter application, basically provides the words, and their definitions for a given letter combination)
 5. Eureka-Server - (Eureka Discovery Server for service discovery)
-6. WordHunter-UI - (UI for the WordHunter application)
+6. [WordHunter-UI](https://wordhunter.niweera.gq/) - (UI for the WordHunter application)
 
 ## Contributing
 
