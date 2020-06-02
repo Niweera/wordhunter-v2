@@ -33,7 +33,7 @@ Distributed under the MIT license. See `LICENSE` for more information.
 [https://github.com/Niweera/wordhunter-v2](https://github.com/Niweera/wordhunter-v2)
 
 WordHunter-V2 is a combination of several microservices written in Java Spring Boot.
-All services are cached with Redis server, load balanced with Ribbon Client and short-circuited with Netflix Hystrix. Inter-service communication is done via FeignClient.
+All services are cached with Redis server, load balanced with Ribbon Client and short-circuited with Netflix Hystrix. Inter-service communication is done via FeignClient and WebFlux WebClient.
 
 1. [GoogleDict](https://googledict.herokuapp.com/) - (Dictionary API Service)
 2. [Enygma](https://enygma.herokuapp.com/) - (Enygma Service for getting anagrams for a given letter combinations)
