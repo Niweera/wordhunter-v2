@@ -32,6 +32,7 @@ public class Scraper {
         try {
             HtmlPage page = client.getPage(url);
             List<HtmlElement> results = page.getByXPath("//*[(@id = \"wordwrap\")]//a");
+            log.info(results.toString());
             List<String> anagrams = new ArrayList<>();
             if (!results.isEmpty()) {
                 results.forEach(item -> anagrams.add(item.asText()));
