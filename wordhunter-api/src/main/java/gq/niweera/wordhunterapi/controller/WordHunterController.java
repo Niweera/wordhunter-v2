@@ -5,12 +5,14 @@ import gq.niweera.wordhunterapi.model.Dictionary;
 import gq.niweera.wordhunterapi.service.WordHunterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 
+@CrossOrigin(origins = {"https://wordhunter.niweera.gq","http://localhost:3000"})
 @RestController
 public class WordHunterController {
     private final WordHunterService wordHunterService;

@@ -43,7 +43,7 @@ public class WordHoundService {
             List<Mono<Dictionary>> dictionaryList = anagramsList.stream().map(this::getDefinitionFromWordHound).collect(Collectors.toList());
             return Flux.mergeSequential(dictionaryList);
         } catch (Exception ignored) {
-            return null;
+            return Flux.empty();
         }
     }
 

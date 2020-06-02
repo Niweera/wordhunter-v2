@@ -38,7 +38,7 @@ public class WordHunterService {
         if (!anagramsList.isEmpty()) {
             return wordHoundService.getDefinitions(anagramsList);
         } else {
-            return null;
+            return Flux.empty();
         }
     }
 
