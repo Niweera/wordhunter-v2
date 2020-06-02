@@ -1,12 +1,11 @@
 package gq.niweera.wordhunterapi.service;
 
 import gq.niweera.wordhunterapi.model.DefaultResponse;
-import gq.niweera.wordhunterapi.model.DictionaryList;
+import gq.niweera.wordhunterapi.model.Dictionary;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,14 +19,12 @@ public class WordHunterService {
         this.enygmaService = enygmaService;
     }
 
-    @Cacheable(value = "wordhunterapi", key = "#letters")
-    public DictionaryList getWordsWithDefinitions(String letters) {
+    public Flux<Dictionary> getWordsWithDefinitions(String letters) {
         List<String> anagramsList = enygmaService.getAnagramsList(letters);
-
         if (!anagramsList.isEmpty()) {
-            return new DictionaryList(wordHoundService.getDefinitions(anagramsList));
+            return wordHoundService.getDefinitions(anagramsList);
         } else {
-            return new DictionaryList(Collections.emptyList());
+            return null;
         }
     }
 

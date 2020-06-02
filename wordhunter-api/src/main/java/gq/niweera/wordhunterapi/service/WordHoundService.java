@@ -3,13 +3,14 @@ package gq.niweera.wordhunterapi.service;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import gq.niweera.wordhunterapi.model.Dictionary;
-import gq.niweera.wordhunterapi.model.DictionaryList;
 import gq.niweera.wordhunterapi.proxy.WordHoundProxy;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,16 +18,18 @@ import java.util.stream.Collectors;
 public class WordHoundService {
 
     private final WordHoundProxy wordHoundProxy;
+    private final WebClient.Builder webClientBuilder;
 
     @Autowired
-    public WordHoundService(WordHoundProxy wordHoundProxy) {
+    public WordHoundService(WordHoundProxy wordHoundProxy, WebClient.Builder webClientBuilder) {
         this.wordHoundProxy = wordHoundProxy;
+        this.webClientBuilder = webClientBuilder;
     }
 
     @HystrixCommand(fallbackMethod = "getFallbackDefinitions",
             commandKey = "wordHoundServiceCommand",
             commandProperties = {
-                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "300000"),
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "30000"),
                     @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "100"),
                     @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
                     @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000")
@@ -35,13 +38,16 @@ public class WordHoundService {
                     @HystrixProperty(name = "coreSize", value = "20"),
                     @HystrixProperty(name = "maxQueueSize", value = "10")
             })
-    public List<Dictionary> getDefinitions(@NotNull List<String> anagramsList) {
-        List<Dictionary> dictionaryList = anagramsList.stream().map(wordHoundProxy::getDefinitionFromWordHound).collect(Collectors.toList());
-        DictionaryList rawDefinitions = new DictionaryList(dictionaryList);
-        return rawDefinitions.getDefinitions().stream().filter(item -> !item.getWord().equals("not-found-error")).collect(Collectors.toList());
+    public Flux<Dictionary> getDefinitions(@NotNull List<String> anagramsList) {
+        List<Mono<Dictionary>> dictionaryList = anagramsList.stream().map(this::getDefinitionFromWordHound).collect(Collectors.toList());
+        return Flux.mergeSequential(dictionaryList);
     }
 
-    public List<Dictionary> getFallbackDefinitions(@NotNull List<String> anagramsList) {
-        return Collections.singletonList(new Dictionary(anagramsList.get(0), "We all can be only who we are, no more, no less."));
+    private Mono<Dictionary> getDefinitionFromWordHound(String word) {
+        return webClientBuilder.build().get().uri("//wordhound/definition/" + word).retrieve().bodyToMono(Dictionary.class);
+    }
+
+    public Flux<Dictionary> getFallbackDefinitions(@NotNull List<String> anagramsList) {
+        return null;
     }
 }

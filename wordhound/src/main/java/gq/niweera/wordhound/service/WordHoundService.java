@@ -38,7 +38,7 @@ public class WordHoundService {
                     return definitionFromGoogleDict;
                 }
             } else {
-                return new Dictionary("not-found-error", "Definition not found");
+                return new Dictionary(word, "Definition not found");
             }
         }
     }
