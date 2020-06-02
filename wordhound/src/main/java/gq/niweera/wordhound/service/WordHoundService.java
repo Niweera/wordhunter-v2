@@ -27,10 +27,12 @@ public class WordHoundService {
             definitionFromDB = null;
         }
         if (definitionFromDB != null) {
+            System.out.println(definitionFromDB.getWord() + ": " +definitionFromDB.getDefinition());
             return definitionFromDB;
         } else {
             Dictionary definitionFromGoogleDict = googleDictService.getFromGoogleDict(word);
             if (definitionFromGoogleDict != null) {
+                System.out.println(definitionFromGoogleDict.getWord() + ": " +definitionFromGoogleDict.getDefinition());
                 try {
                     saveNewDefinition(definitionFromGoogleDict);
                     return definitionFromGoogleDict;
@@ -38,6 +40,7 @@ public class WordHoundService {
                     return definitionFromGoogleDict;
                 }
             } else {
+                System.out.println(word + ": Definition not found");
                 return new Dictionary(word, "Definition not found");
             }
         }
