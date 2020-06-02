@@ -44,7 +44,7 @@ public class WordHoundService {
     }
 
     private Mono<Dictionary> getDefinitionFromWordHound(String word) {
-        return webClientBuilder.build().get().uri("//wordhound/definition/" + word).retrieve().bodyToMono(Dictionary.class);
+        return webClientBuilder.build().get().uri("https://wordhound.herokuapp.com/definition/" + word).retrieve().bodyToMono(Dictionary.class);
     }
 
     public Flux<Dictionary> getFallbackDefinitions(@NotNull List<String> anagramsList) {

@@ -33,7 +33,3 @@ feign:
       default:
         connect-timeout: 300000
         read-timeout: 300000
-
-googledict:
-  ribbon:
-    listOfServers: ${GOOGLEDICT_URL:http://localhost:8000}
