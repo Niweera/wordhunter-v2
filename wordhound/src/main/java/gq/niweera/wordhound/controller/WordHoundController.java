@@ -3,6 +3,7 @@ package gq.niweera.wordhound.controller;
 import gq.niweera.wordhound.model.DefaultResponse;
 import gq.niweera.wordhound.model.Dictionary;
 import gq.niweera.wordhound.service.WordHoundService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
+@Slf4j
 public class WordHoundController {
 
     private final WordHoundService wordHoundService;
@@ -32,7 +34,9 @@ public class WordHoundController {
     @GetMapping("/definition/{word}")
     public Dictionary getDefinition(@PathVariable("word") String word) {
         try {
-            return wordHoundService.getDefinition(word);
+            Dictionary dictionary = wordHoundService.getDefinition(word);
+            log.info(dictionary.getWord() + ": " + dictionary.getDefinition());
+            return dictionary;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
         }

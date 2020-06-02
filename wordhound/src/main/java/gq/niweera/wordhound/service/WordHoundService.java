@@ -4,12 +4,14 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import gq.niweera.wordhound.model.DefaultResponse;
 import gq.niweera.wordhound.model.Dictionary;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@Slf4j
 public class WordHoundService {
     private final GoogleDictService googleDictService;
     private final WordCacheService wordCacheService;
@@ -41,10 +43,12 @@ public class WordHoundService {
             definitionFromDB = null;
         }
         if (definitionFromDB != null) {
+            log.warn(word + " is not in the WordCacheDB");
             return definitionFromDB;
         } else {
             Dictionary definitionFromGoogleDict = googleDictService.getFromGoogleDict(word);
             if (definitionFromGoogleDict != null) {
+                log.info(word + " is available in GoogleDict");
                 try {
                     saveNewDefinition(definitionFromGoogleDict);
                     return definitionFromGoogleDict;
@@ -52,6 +56,7 @@ public class WordHoundService {
                     return definitionFromGoogleDict;
                 }
             } else {
+                log.warn(word + " is not in the GoogleDict");
                 return new Dictionary(word, "Definition not found");
             }
         }
